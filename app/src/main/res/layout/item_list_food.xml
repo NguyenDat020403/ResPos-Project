@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/border_menu_left"
+    android:padding="16dp"
+    android:layout_margin="10dp">
+
+
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:src="@drawable/image1"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp"
+            android:background="@mipmap/ic_launcher" />
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spicy seasoned seafood noodles"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:maxLines="2" />
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="$2.29"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+        <TextView
+
+            android:id="@+id/product_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="20 Bowls available"
+            android:textColor="#C0C0C0"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp" />
+
+</LinearLayout>

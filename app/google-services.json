@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "958318279979",
+    "firebase_url": "https://restaurant-management-b2a1c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "restaurant-management-b2a1c",
+    "storage_bucket": "restaurant-management-b2a1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958318279979:android:848cf86d4d7b06edb3996e",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr5XTderKmmDOPYsBMRcLfN0qV7qZ2I28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

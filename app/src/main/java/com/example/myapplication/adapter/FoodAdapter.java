@@ -1,0 +1,126 @@
+package com.example.myapplication.adapter;
+
+import static com.example.myapplication.R.drawable.ic_launcher_foreground;
+import static com.example.myapplication.R.drawable.image1;
+import static com.example.myapplication.R.drawable.image3;
+import static com.example.myapplication.R.drawable.image5;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.model.Food;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
+
+
+    private List<Food> listFoods;
+    private Context context;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Food food);
+    }
+
+    public FoodAdapter(List<Food> listFoods, Context context, OnItemClickListener onItemClickListener) {
+        this.listFoods = listFoods;
+        this.context = context;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    @NonNull
+    @Override
+    public FoodHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_food,parent,false);
+
+        return new FoodHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull FoodHolder holder, int position) {
+        Food food = listFoods.get(position);
+        if(food == null){
+            return;
+        }
+        holder.txtProductName.setText(food.getFoodName());
+        holder.txtProductPrice.setText(String.valueOf(food.getFoodPrice()));
+        if(food.getFoodImage().equals("1") ){
+            Picasso.get()
+                    .load(image1)
+                    .into(holder.imgProductPhoto);
+        }else
+            Picasso.get()
+                    .load(image5)
+                    .into(holder.imgProductPhoto);
+
+
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                if(isLongClick)
+                    Toast.makeText(context, "Long Click: "+listFoods.get(position), Toast.LENGTH_SHORT).show();
+                else
+                    onItemClickListener.onItemClick(food);
+            }
+        });
+    }
+    public void updateFoodList(List<Food> newFoodList) {
+        listFoods = newFoodList;
+        notifyDataSetChanged();
+    }
+    @Override
+    public int getItemCount() {
+        if(listFoods != null){
+            return listFoods.size();
+        }
+        return 0;
+    }
+
+
+    public interface ItemClickListener {
+        void onClick(View view, int position,boolean isLongClick);
+    }
+
+    class FoodHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+        private TextView txtProductName, txtProductPrice;
+        private ImageView imgProductPhoto;
+        private ItemClickListener itemClickListener;
+
+
+
+        public FoodHolder(@NonNull View itemView) {
+            super(itemView);
+            txtProductName = itemView.findViewById(R.id.product_name);
+            txtProductPrice = itemView.findViewById(R.id.product_price);
+            imgProductPhoto = itemView.findViewById(R.id.product_image);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+        public void setItemClickListener(ItemClickListener itemClickListener)
+        {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemClickListener.onClick(view,getAdapterPosition(),false);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            itemClickListener.onClick(view,getAdapterPosition(),true);
+            return true;
+        }
+    }
+}
