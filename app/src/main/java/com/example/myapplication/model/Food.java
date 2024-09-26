@@ -10,26 +10,22 @@ import com.google.gson.annotations.SerializedName;
 public  class Food{
     @SerializedName("menuItemId")
     private int foodID;
-
-    @SerializedName("name")
+    @SerializedName("itemName")
     private String foodName;
-
-    @SerializedName("description")
-    private String foodDescription;
-
     @SerializedName("price")
     private Double foodPrice;
     @SerializedName("category")
     private String foodCategory;
-
+    @SerializedName("description")
+    private String foodDescription;
     @SerializedName("image")
-    private String foodImage;
+    private Byte[] foodImage;
 
 
     public Food() {
     }
 
-    public Food(int foodID, String foodName, String foodDescription, Double foodPrice, String foodCategory, String foodImage) {
+    public Food(int foodID, String foodName,  Double foodPrice, String foodCategory, String foodDescription,Byte[] foodImage) {
         this.foodID = foodID;
         this.foodName = foodName;
         this.foodDescription = foodDescription;
@@ -78,11 +74,11 @@ public  class Food{
         this.foodCategory = foodCategory;
     }
 
-    public String getFoodImage() {
+    public Byte[] getFoodImage() {
         return foodImage;
     }
 
-    public void setFoodImage(String foodImage) {
+    public void setFoodImage(Byte[] foodImage) {
         this.foodImage = foodImage;
     }
 }

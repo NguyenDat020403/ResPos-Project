@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.example.myapplication.model.Order;
 import com.example.myapplication.model.Table;
 import com.example.myapplication.viewModel.FoodViewModel;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         tableList = new ArrayList<>();
         apiService = ApiClient.getClient().create(ApiService.class);
+
+
+
+
+
         Call<List<Table>> call = apiService.getListTable();
         call.enqueue(new Callback<List<Table>>() {
             @Override
@@ -68,14 +76,25 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(v ->{
             if(!tableList.isEmpty()){
                 for (Table t : tableList){
-                    if(Objects.equals(t.getUsername(), binding.edtUserName.getText().toString()) && Objects.equals(t.getPassword(), binding.edtPassWord.getText().toString())){
-                        Intent i = new Intent(this, MainActivity.class);
-                        i.putExtra("table", t);
+                    if(Objects.equals(t.getUsername(), binding.edtUsername.getText().toString()) && Objects.equals(t.getPassword(), binding.edtPassword.getText().toString())){
+                        SharedPreferences sharedPref = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        Gson gson = new Gson();
+                        String tableJson = gson.toJson(t);
+                        editor.putString("tableInfo", tableJson);
+                        editor.putBoolean("isLoggedIn", true);
+                        editor.apply();
+                        editor.apply();
+
+                        Intent i = new Intent(this, HomeActivity.class);
                         Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
                         startActivity(i);
+                        finish();
+                        return;
                     }
                 }
+                Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
             }
         });
     }

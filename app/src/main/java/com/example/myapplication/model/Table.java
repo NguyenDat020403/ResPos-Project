@@ -4,28 +4,25 @@ import java.io.Serializable;
 
 public class Table implements Serializable {
     private int tableId;
-    private int tableNumber;
+    private String tableNumber;
     private int capacity;
-    private String location;
     private String username;
     private String password;
 
     public Table() {
     }
 
-    public Table(int tableNumber, int capacity, String location, String username, String password) {
+    public Table(String tableNumber, int capacity, String username, String password) {
         this.tableNumber = tableNumber;
         this.capacity = capacity;
-        this.location = location;
         this.username = username;
         this.password = password;
     }
 
-    public Table(int tableId, int tableNumber, int capacity, String location, String username, String password) {
+    public Table(int tableId, String tableNumber, int capacity, String username, String password) {
         this.tableId = tableId;
         this.tableNumber = tableNumber;
         this.capacity = capacity;
-        this.location = location;
         this.username = username;
         this.password = password;
     }
@@ -38,11 +35,11 @@ public class Table implements Serializable {
         this.tableId = tableId;
     }
 
-    public int getTableNumber() {
+    public String getTableNumber() {
         return tableNumber;
     }
 
-    public void setTableNumber(int tableNumber) {
+    public void setTableNumber(String tableNumber) {
         this.tableNumber = tableNumber;
     }
 
@@ -52,14 +49,6 @@ public class Table implements Serializable {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getUsername() {

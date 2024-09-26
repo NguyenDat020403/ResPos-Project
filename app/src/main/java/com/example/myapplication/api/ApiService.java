@@ -13,13 +13,13 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    @GET("Items/List")
+    @GET("Menu/List")
     Call<List<Food>> getListFood();
-    @GET("Tables/List")
+    @GET("Table/List")
     Call<List<Table>> getListTable();
-    @POST("Orders/Insert")
+    @POST("Order/Insert")
     Call<Order> insertNewOrder(@Body Order order);
-    @POST("OrderItems/Insert")
+    @POST("OrderItem/Insert")
     Call<OrderItem> insertOrderItem(@Body OrderItem orderItem);
 
 }

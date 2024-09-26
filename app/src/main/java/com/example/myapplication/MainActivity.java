@@ -4,12 +4,11 @@ import static android.graphics.Color.BLUE;
 import static android.graphics.Color.RED;
 import static android.graphics.Color.WHITE;
 
-import static com.example.myapplication.R.drawable.border_menu_left;
 import static com.example.myapplication.R.drawable.border_note_order;
 
 import android.annotation.SuppressLint;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -30,18 +29,16 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.model.Food;
 import com.example.myapplication.model.Order;
 import com.example.myapplication.model.OrderItem;
+
 import com.example.myapplication.model.Table;
 import com.example.myapplication.viewModel.FoodViewModel;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.gson.Gson;
-import com.google.type.DateTime;
+
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     public static List<Food> listFood;
     public static List<OrderItem> listOrder;
     public static OrderAdapter orderAdapter;
-    private Table table;
     public static TextView totalBill;
     public static ApiService apiService;
     public static boolean checkOrder = false;
@@ -63,19 +59,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Intent intent = getIntent();
+        Table table = (Table) intent.getSerializableExtra("tableData");
+        binding.txtTableNumber.setText(table.getTableNumber());
         totalBill = findViewById(R.id.txtTotalBill);
         listFood = new ArrayList<>();
         listOrder = new ArrayList<>();
         binding.txtTotalBill.setText( "0 VNĐ");
-        Intent i = getIntent();
-        table = (Table) i.getSerializableExtra("table");
-        binding.txtTableNumber.setText(String.valueOf(table.getTableNumber()));
+
+
+
+
         apiService = ApiClient.getClient().create(ApiService.class);
 
-        // Improved error handling for order creation
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = sdf.format(new Date());
-        Order newOrder = new Order(1, 1, formattedDate, new BigDecimal(150000.0), "Đang chuẩn bị");
+
+
+        Order newOrder = new Order(table.getTableId() , new BigDecimal(10000), "Pending");
+
+
         Call<Order> callOrder = apiService.insertNewOrder(newOrder);
         callOrder.enqueue(new Callback<Order>() {
             @Override
@@ -86,14 +88,12 @@ public class MainActivity extends AppCompatActivity {
                     checkOrder = true;
                 } else {
                     Log.d("API_RESPONSE", "Order insertion failed: " + response.code());
-                    // Handle order insertion failure with appropriate error code
                 }
             }
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
                 Log.e("API_RESPONSE", "Order insertion failed: " + t.getMessage());
-                // Handle network or other errors during order insertion
             }
         });
 
@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     binding.btnOrderNow.setBackgroundResource(border_note_order);
                     binding.btnOrderNow.setClickable(false);
+                    binding.txtTotalBill.setText("0 VNĐ");
                     listOrder.clear();
                     orderAdapter.notifyDataSetChanged();
                 }else{
@@ -194,8 +195,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-
+        binding.search.setOnClickListener(v->{
+        });
     }
+
 
 
 
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         int check = 1;
         Double total = (double) 0;
         if(listOrder.isEmpty()){
-            OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice());
+            OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"");
             listOrder.add(item);
         }else{
             for(OrderItem o : listOrder){
@@ -219,14 +222,14 @@ public class MainActivity extends AppCompatActivity {
                 check = 1;
             }
             if(check == 1 ){
-                OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice());
+                OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"");
                 listOrder.add(item);
             }
 
 
         }
         for(OrderItem o : listOrder){
-            total += Double.valueOf(o.getQuantity()) * o.getPrice();
+            total += o.getQuantity() * o.getPrice();
         }
         totalBill.setText(String.valueOf(total));
         orderAdapter.notifyDataSetChanged();

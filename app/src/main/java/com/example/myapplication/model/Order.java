@@ -1,8 +1,6 @@
 package com.example.myapplication.model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
+import android.util.Log;
 
 import com.google.type.DateTime;
 
@@ -22,10 +20,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int tableId, int customerId, String  orderTime, BigDecimal totalAmount, String status) {
+    public Order(int tableId, BigDecimal totalAmount, String status) {
         this.tableId = tableId;
-        this.customerId = customerId;
-        this.orderTime = orderTime;
+        this.orderTime = getCurrentTime();
         this.totalAmount = totalAmount;
         this.status = status;
     }
@@ -87,5 +84,8 @@ public class Order {
         this.status = status;
     }
 
-
+    private String getCurrentTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        return LocalDateTime.now().format(formatter);
+    }
 }

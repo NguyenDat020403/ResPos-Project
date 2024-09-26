@@ -1,5 +1,7 @@
 package com.example.myapplication.adapter;
 
+import static com.example.myapplication.MainActivity.listOrder;
+
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,13 +47,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             if(f.getFoodID() == order.getMenuItemId()){
                 holder.txtProductName.setText(f.getFoodName());
                 holder.txtProductPrice.setText(String.valueOf(order.getPrice()));
-                if(f.getFoodImage() == "1" ){
-                    holder.imgProductPhoto.setImageResource(R.drawable.image1);
-                }if(f.getFoodImage() == "2" ){
-                    holder.imgProductPhoto.setImageResource(R.drawable.image3);
-                }if(f.getFoodImage() == "3" ){
+//                if(f.getFoodImage() == "1" ){
+//                    holder.imgProductPhoto.setImageResource(R.drawable.image1);
+//                }if(f.getFoodImage() == "2" ){
+//                    holder.imgProductPhoto.setImageResource(R.drawable.image3);
+//                }if(f.getFoodImage() == "3" ){
                     holder.imgProductPhoto.setImageResource(R.drawable.image5);
-                }
+//                }
                 holder.txtTotalPrice.setText(String.valueOf(order.getPrice() * order.getQuantity()));
                 holder.txtItemQty.setText(String.valueOf(order.getQuantity()));
                 holder.imvAddItem.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +63,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                         order.setQuantity(order.getQuantity() +1);
                         orderItemList.get(position).setQuantity(order.getQuantity());
                         holder.txtItemQty.setText(String.valueOf(order.getQuantity()));
+                        Double total = (double) 0;
+                        for(OrderItem o : listOrder){
+                            total += o.getQuantity() * o.getPrice();
+                        }
+                        MainActivity.totalBill.setText(String.valueOf(total));
                         MainActivity.orderAdapter.notifyDataSetChanged();
                     }
                 });
@@ -97,7 +104,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
     @SuppressLint("NotifyDataSetChanged")
     private void removeItemOderList(OrderItem order) {
-        MainActivity.listOrder.remove(order);
+        listOrder.remove(order);
         MainActivity.orderAdapter.notifyDataSetChanged();
         if(orderItemList.isEmpty()) MainActivity.totalBill.setText("0 VNĐ");
         else for(OrderItem o : orderItemList){
