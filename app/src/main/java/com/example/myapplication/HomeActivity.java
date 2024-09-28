@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +17,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.myapplication.databinding.ActivityHomeBinding;
 import com.example.myapplication.model.Table;
 import com.google.gson.Gson;
+import com.microsoft.signalr.HubConnection;
+import com.microsoft.signalr.HubConnectionBuilder;
 
 public class HomeActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
@@ -35,6 +38,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void checkLogin() {
         SharedPreferences sharedPref = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);

@@ -67,7 +67,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                         for(OrderItem o : listOrder){
                             total += o.getQuantity() * o.getPrice();
                         }
-                        MainActivity.totalBill.setText(String.valueOf(total));
+                        MainActivity.binding.txtTotalBill.setText(String.valueOf(total));
                         MainActivity.orderAdapter.notifyDataSetChanged();
                     }
                 });
@@ -106,9 +106,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
     private void removeItemOderList(OrderItem order) {
         listOrder.remove(order);
         MainActivity.orderAdapter.notifyDataSetChanged();
-        if(orderItemList.isEmpty()) MainActivity.totalBill.setText("0 VNĐ");
+        if(orderItemList.isEmpty()) MainActivity.binding.txtTotalBill.setText("0 VNĐ");
         else for(OrderItem o : orderItemList){
-            MainActivity.totalBill.setText(String.valueOf(o.getQuantity() * o.getPrice()));
+            MainActivity.binding.txtTotalBill.setText(String.valueOf(o.getQuantity() * o.getPrice()));
         }
     }
 

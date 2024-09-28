@@ -41,6 +41,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
+    implementation ("com.microsoft.signalr:signalr:9.0.0-preview.7.24406.2")
+    implementation ("org.slf4j:slf4j-simple:1.7.30")
 
     implementation ("com.squareup.picasso:picasso:2.8")
 
