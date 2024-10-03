@@ -2,6 +2,7 @@ package com.example.myapplication.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
@@ -19,13 +20,13 @@ public  class Food{
     @SerializedName("description")
     private String foodDescription;
     @SerializedName("image")
-    private Byte[] foodImage;
+    private String foodImage;
 
 
     public Food() {
     }
 
-    public Food(int foodID, String foodName,  Double foodPrice, String foodCategory, String foodDescription,Byte[] foodImage) {
+    public Food(int foodID, String foodName,  Double foodPrice, String foodCategory, String foodDescription,String foodImage) {
         this.foodID = foodID;
         this.foodName = foodName;
         this.foodDescription = foodDescription;
@@ -74,11 +75,19 @@ public  class Food{
         this.foodCategory = foodCategory;
     }
 
-    public Byte[] getFoodImage() {
+    public String getFoodImage() {
         return foodImage;
     }
+    public byte[] getFoodImageBytes() {
+        if (foodImage != null) {
+            return Base64.decode(foodImage, Base64.DEFAULT);
+        } else {
+            return null; // Hoặc trả về một byte array mặc định (ví dụ: new byte[0])
+        }
+    }
 
-    public void setFoodImage(Byte[] foodImage) {
+
+    public void setFoodImage(String foodImage) {
         this.foodImage = foodImage;
     }
 }

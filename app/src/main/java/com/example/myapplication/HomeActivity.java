@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         checkLogin();
-
+//        table = new Table("3",4,"table3","table3");
         binding.btnCreateNewOrder.setOnClickListener(v ->{
             Intent i = new Intent(HomeActivity.this, MainActivity.class);
             i.putExtra("tableData", table); // 'table' là đối tượng Table

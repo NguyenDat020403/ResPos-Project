@@ -7,6 +7,8 @@ import static com.example.myapplication.R.drawable.image5;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         }
         holder.txtProductName.setText(food.getFoodName());
         holder.txtProductPrice.setText(String.valueOf(food.getFoodPrice()));
+        if(food.getFoodImageBytes() != null){
+            byte[] imageBytes = food.getFoodImageBytes();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+            holder.imgProductPhoto.setImageBitmap(bitmap);
+        }else {
+            Picasso.get()
+                    .load(image5)
+                    .into(holder.imgProductPhoto);
+        }
 //        if(food.getFoodImage().equals("1") ){
 //            Picasso.get()
 //                    .load(image1)

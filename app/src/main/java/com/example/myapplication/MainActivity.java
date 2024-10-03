@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         initM();
         createNewOrder(apiService,table);
-        checkFoodUpdate();
+//        checkFoodUpdate();
 
         fetchMenu();
         insertOrderList();
