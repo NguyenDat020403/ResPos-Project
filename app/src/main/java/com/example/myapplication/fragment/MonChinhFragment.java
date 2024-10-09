@@ -46,9 +46,10 @@ public class MonChinhFragment extends Fragment {
 
         foodViewModel.getFoodList().observe(getViewLifecycleOwner(), foodList -> {
             if (foodList != null) {
+                Log.d("MonChinhFragment", "Food list size: " + foodList.size());
                 List<Food> monchinhList = new ArrayList<>();
                 for (Food food : foodList) {
-                    if(food.getFoodID() <=3){
+                    if(Integer.parseInt(food.getFoodCategory()) == 2){
                         monchinhList.add(food);
                     }
                 }

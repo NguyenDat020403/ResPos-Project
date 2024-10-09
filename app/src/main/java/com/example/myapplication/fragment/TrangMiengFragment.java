@@ -46,13 +46,13 @@ public class TrangMiengFragment extends Fragment {
 
         foodViewModel.getFoodList().observe(getViewLifecycleOwner(), foodList -> {
             if (foodList != null) {
-                List<Food> monchinhList = new ArrayList<>();
+                List<Food> trangmiengList = new ArrayList<>();
                 for (Food food : foodList) {
-                    if(food.getFoodID() == 2){
-                        monchinhList.add(food);
+                    if(Integer.parseInt(food.getFoodCategory()) == 3){
+                        trangmiengList.add(food);
                     }
                 }
-                foodAdapter.updateFoodList(monchinhList);
+                foodAdapter.updateFoodList(trangmiengList);
             }
         });
 

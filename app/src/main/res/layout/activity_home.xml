@@ -3,21 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@drawable/border_menu_left"
+    android:background="@drawable/big_hero_faded"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".HomeActivity">
     <LinearLayout
-        android:gravity="center"
+        android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
-            android:id="@+id/btnCreateNewOrder"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:text="ORDER NOW ..."
-            android:textSize="30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:padding="50dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imvBanner"
+                android:src="@drawable/hero"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lnRightHome"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:layout_marginBottom="50dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_margin="20dp"
+                android:layout_width="378dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitoblack"
+                android:text="Enjoy Our Delicious Meal"
+                android:textColor="@color/white"
+                android:textSize="50sp" />
+            <TextView
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunitolight"
+                android:text="Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+            <Button
+                android:layout_margin="20dp"
+                android:id="@+id/btnCreateNewOrder"
+                android:layout_gravity="center"
+                android:backgroundTint="#FEA116"
+                android:textColor="@color/white"
+                android:text="START ORDER"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

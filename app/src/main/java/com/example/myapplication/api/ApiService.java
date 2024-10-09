@@ -12,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface ApiService {
     @GET("Menu/List")
@@ -22,5 +23,8 @@ public interface ApiService {
     Call<Order> insertNewOrder(@Body Order order);
     @POST("OrderItem/Insert")
     Call<OrderItem> insertOrderItem(@Body OrderItem orderItem);
+
+    @PUT("Order/Update")
+    Call<Order> updateOrder(@Body Order order);
 
 }

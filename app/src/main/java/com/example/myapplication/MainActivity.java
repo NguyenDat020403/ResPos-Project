@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.concurrent.atomic.DoubleAccumulator;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public static OrderAdapter orderAdapter;
     public static ApiService apiService;
     public static boolean checkOrder = false;
-
+    public Order newOrder;
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
         initM();
         createNewOrder(apiService,table);
-//        checkFoodUpdate();
+        checkFoodUpdate();
 
         fetchMenu();
         insertOrderList();
-
 
         orderNow();
         addEvents();
@@ -77,11 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void orderNow() {
         binding.btnOrderNow.setOnClickListener(v -> {
+            String totalBill = binding.txtTotalBill.getText().toString();
             if(listOrder.isEmpty()){
                 Toast.makeText(this, "Vui lòng chọn món ăn", Toast.LENGTH_LONG).show();
                 binding.btnOrderNow.setClickable(false);
             }else{
                 if(checkOrder){
+                    updateOrderTotalAmount(totalBill);
                     insertOrderItem(listOrder,orderAdapter);
                 }else{
                     Log.d("Orders ", "Loading...");
@@ -89,6 +93,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        });
+    }
+
+    private void updateOrderTotalAmount(String totalBill) {
+        Log.d("Newoder", String.valueOf(newOrder.getOrderId()));
+        newOrder.setTotalAmount(BigDecimal.valueOf(Double.parseDouble(totalBill)));
+        Call<Order> callOrder= apiService.updateOrder(newOrder);
+        callOrder.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.d("API_RESPONSE 1111111", "Order  inserted successfully: " + response.body().getTotalAmount());
+
+                    } else {
+                        Log.d("API_RESPONSE", "Response body is null");
+                    }
+                } else {
+                    Log.d("API_RESPONSE", "Order  insertion failed: " + response.code() + " - " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                Log.e("API_RESPONSE", "Order  insertion failed: " + t.getMessage());
+                // Handle network or other errors during order item insertion
+            }
         });
     }
 
@@ -111,9 +142,11 @@ public class MainActivity extends AppCompatActivity {
         apiService = ApiClient.getClient().create(ApiService.class);
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     private void insertOrderItem(List<OrderItem> listOrder, OrderAdapter orderAdapter) {
         for(OrderItem o: MainActivity.listOrder){
+
             Call<OrderItem> callOrderItem = apiService.insertOrderItem(o);
             callOrderItem.enqueue(new Callback<OrderItem>() {
                 @Override
@@ -183,14 +216,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNewOrder(ApiService apiService, Table table) {
-        Order newOrder = new Order(table.getTableId() , new BigDecimal(10000), "Pending");
-
-
+        newOrder = new Order(table.getTableId() , "Pending");
         Call<Order> callOrder = apiService.insertNewOrder(newOrder);
         callOrder.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
                 if (response.isSuccessful()) {
+                    newOrder = response.body();
                     binding.txtOrderID.setText(String.valueOf(response.body().getOrderId()));
                     Log.d("API_RESPONSE", "Order inserted successfully: " + response.body().getStatus());
                     checkOrder = true;
@@ -242,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkFoodUpdate() {
-        HubConnection hubConnection = HubConnectionBuilder.create("http://10.0.2.2:5134/menuItemHub") // Sử dụng IP của máy chủ hoặc localhost
+        HubConnection hubConnection = HubConnectionBuilder.create("https://resmant1111-001-site1.jtempurl.com/menuHub") // Sử dụng IP của máy chủ hoặc localhost
                 .build();
 
         hubConnection.on("ReceiveMenuUpdate", (data) -> {
@@ -275,7 +307,8 @@ public class MainActivity extends AppCompatActivity {
         binding.navItemCallStaff.setOnClickListener(view -> {
             selectItem(binding.navItemCallStaff);
             binding.callStaff.setColorFilter(WHITE);
-
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            finish();
         });
     }
     private void selectItem(LinearLayout selectedItem) {

@@ -1,8 +1,14 @@
 package com.example.myapplication.adapter;
 
+import static com.example.myapplication.MainActivity.binding;
 import static com.example.myapplication.MainActivity.listOrder;
+import static com.example.myapplication.R.drawable.image5;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +24,7 @@ import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Food;
 import com.example.myapplication.model.OrderItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,23 +44,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         return new OrderHolder(view);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, @SuppressLint("RecyclerView") int position) {
         OrderItem order = orderItemList.get(position);
         if(order == null){
             return;
         }
+        holder.edtnoteItemOrder.setText("");
+        holder.edtnoteItemOrder.setHint("Order Now...");
         for (Food f : MainActivity.listFood) {
             if(f.getFoodID() == order.getMenuItemId()){
                 holder.txtProductName.setText(f.getFoodName());
                 holder.txtProductPrice.setText(String.valueOf(order.getPrice()));
-//                if(f.getFoodImage() == "1" ){
-//                    holder.imgProductPhoto.setImageResource(R.drawable.image1);
-//                }if(f.getFoodImage() == "2" ){
-//                    holder.imgProductPhoto.setImageResource(R.drawable.image3);
-//                }if(f.getFoodImage() == "3" ){
-                    holder.imgProductPhoto.setImageResource(R.drawable.image5);
-//                }
+                if(f.getFoodImageBytes() != null){
+                    byte[] imageBytes = f.getFoodImageBytes();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+                    holder.imgProductPhoto.setImageBitmap(bitmap);
+                }else {
+                    Picasso.get()
+                            .load(image5)
+                            .into(holder.imgProductPhoto);
+                }
                 holder.txtTotalPrice.setText(String.valueOf(order.getPrice() * order.getQuantity()));
                 holder.txtItemQty.setText(String.valueOf(order.getQuantity()));
                 holder.imvAddItem.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +91,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                         order.setQuantity(order.getQuantity() -1);
                         if (order.getQuantity() == 0){
                             removeItemOderList(order);
+
                         }else{
                             orderItemList.get(position).setQuantity(order.getQuantity());
                             holder.txtItemQty.setText(String.valueOf(order.getQuantity()));
-                            MainActivity.orderAdapter.notifyDataSetChanged();
                         }
-
+                        Double total = (double) 0;
+                        for(OrderItem o : listOrder){
+                            total += o.getQuantity() * o.getPrice();
+                        }
+                        MainActivity.binding.txtTotalBill.setText(String.valueOf(total));
+                        MainActivity.orderAdapter.notifyDataSetChanged();
                     }
                 });
 
@@ -91,6 +109,22 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                     @Override
                     public void onClick(View view) {
                         removeItemOderList(order);
+                    }
+                });
+                holder.edtnoteItemOrder.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        orderItemList.get(position).setNote(holder.edtnoteItemOrder.getText().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
                     }
                 });
                 break;
@@ -124,6 +158,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
         private TextView txtProductName, txtProductPrice, txtTotalPrice;
         public TextView txtItemQty;
+        private EditText edtnoteItemOrder;
         private ImageView imgProductPhoto, imvRemoveItemOrder;
         private ImageView imvRemoveItem, imvAddItem;
         public OrderHolder(@NonNull View itemView) {
@@ -133,6 +168,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             imgProductPhoto = itemView.findViewById(R.id.imvItemPhoto);
             txtTotalPrice = itemView.findViewById(R.id.txtItemTotal);
             txtItemQty = itemView.findViewById(R.id.txtItemQty);
+            edtnoteItemOrder = itemView.findViewById(R.id.edtnoteItemOrder);
             imvRemoveItemOrder = itemView.findViewById(R.id.imvRemoveItemOrder);
             imvRemoveItem = itemView.findViewById(R.id.imvRemoveItem);
             imvAddItem = itemView.findViewById(R.id.imvAddItem);

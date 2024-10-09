@@ -93,7 +93,7 @@
         android:orientation="horizontal">
         <EditText
             android:layout_margin="5dp"
-            android:id="@+id/noteItemOrder"
+            android:id="@+id/edtnoteItemOrder"
             android:layout_weight="9"
             android:autofillHints="Order note..."
             android:padding="15dp"

@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/big_hero"
+            android:gravity="center" />
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#C0020000" /> <!-- Lớp mờ, #80 là độ trong suốt -->
+        </shape>
+    </item>
+</layer-list>

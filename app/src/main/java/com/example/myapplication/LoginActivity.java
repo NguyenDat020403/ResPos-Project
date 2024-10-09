@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -46,8 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         tableList = new ArrayList<>();
         apiService = ApiClient.getClient().create(ApiService.class);
-
-
 
 
 
@@ -97,5 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

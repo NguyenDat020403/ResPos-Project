@@ -52,7 +52,9 @@ public class KhaiViFragment extends Fragment {
                 Log.d("KhaiViFragment", "Food list size: " + foodList.size());
                 List<Food> khaiViList = new ArrayList<>();
                 for (Food food : foodList) {
-                        khaiViList.add(food);
+                        if(Integer.parseInt(food.getFoodCategory()) == 1){
+                            khaiViList.add(food);
+                        }
                 }
                 foodAdapter.updateFoodList(khaiViList);
             }

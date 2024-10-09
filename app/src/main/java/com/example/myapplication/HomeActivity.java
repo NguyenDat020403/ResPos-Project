@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +32,17 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        RotateAnimation rotate = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(35000);
+        rotate.setRepeatCount(Animation.INFINITE);
+        binding.imvBanner.startAnimation(rotate);
+        Animation slideInLeft = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
+        binding.lnRightHome.startAnimation(slideInLeft);
+
+
+
         checkLogin();
 //        table = new Table("3",4,"table3","table3");
         binding.btnCreateNewOrder.setOnClickListener(v ->{

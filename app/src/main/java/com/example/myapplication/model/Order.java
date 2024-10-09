@@ -20,10 +20,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int tableId, BigDecimal totalAmount, String status) {
+    public Order(int tableId, String status) {
         this.tableId = tableId;
         this.orderTime = getCurrentTime();
-        this.totalAmount = totalAmount;
         this.status = status;
     }
 

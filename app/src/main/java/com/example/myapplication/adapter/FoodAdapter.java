@@ -111,14 +111,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         TextView txtFoodDesc = dialog.findViewById(R.id.txtFoodDesc);
         Button btnAddToOrder = dialog.findViewById(R.id.btnAddToOrder);
 
-//        if(food.getFoodImage().equals("1") ){
+        if(food.getFoodImageBytes() != null){
+            byte[] imageBytes = food.getFoodImageBytes();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+            imgFood.setImageBitmap(bitmap);
+        }else {
             Picasso.get()
-                    .load(image1)
+                    .load(image5)
                     .into(imgFood);
-//        }else
-//            Picasso.get()
-//                    .load(image5)
-//                    .into(imgFood);
+        }
         txtFoodName.setText(food.getFoodName());
         txtFoodPrice.setText(String.valueOf(food.getFoodPrice()) + " VNĐ");
         txtFoodDesc.setText(food.getFoodDescription());
