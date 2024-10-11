@@ -1,4 +1,4 @@
-							PHẦN MỀM QUẢN LÝ NHÀ HÀNG - ResM
+					PHẦN MỀM QUẢN LÝ NHÀ HÀNG - ResM
 
 **1. Tổng quan**
 Dự án  là một Hệ Thống Quản Lý Nhà Hàng hoạt động trên ba nền tảng: Web, Windows Form, và ứng dụng Android.
