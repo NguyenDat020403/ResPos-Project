@@ -1,4 +1,4 @@
-                      **PHẦN MỀM QUẢN LÝ NHÀ HÀNG - ResM**
+							PHẦN MỀM QUẢN LÝ NHÀ HÀNG - ResM
 
 **1. Tổng quan**
 Dự án  là một Hệ Thống Quản Lý Nhà Hàng hoạt động trên ba nền tảng: Web, Windows Form, và ứng dụng Android.
@@ -36,19 +36,23 @@ Các thành phần hệ thống:
 - Thông Báo: Gửi thông báo tới nhân viên khi khách đặt món hoặc yêu cầu trợ giúp.
 
 **4. Tiến Độ Phát Triển**
-**Giai đoạn 1: Phân Tích Yêu Cầu và Thiết Kế Hệ Thống**
-(Đã hoàn thành - Tháng 9)
-Cấu trúc cơ sở dữ liệu đã được thiết kế với các bảng quan trọng như Customers, Tables, Orders, MenuItems, v.v.
+
+**Giai đoạn 1: Phân Tích Yêu Cầu và Thiết Kế Hệ Thống (Đã hoàn thành - Tháng 9)**
+- Cấu trúc cơ sở dữ liệu đã được thiết kế với các bảng quan trọng như Customers, Tables, Orders, MenuItems, v.v.
+
 **Giai đoạn 2: Phát Triển Ứng Dụng Web và Windows Form và Android App (Đã hoàn thành -Tháng 9)**
 - Ứng dụng web: Đã cơ bản có chức năng cần thiết (Quản lý món ăn, tài khoản, ..)
 - Ứng dụng Windows Form: Dành cho nhân viên nhà hàng quản lý đơn hàng và bàn.
 - Ứng dụng Android: Đã hoàn thành chức năng gọi món tại bàn và gửi đơn hàng tới hệ thống.
+
 **Giai đoạn 3: Phát Triển Ứng Dụng Web và Windows Form và Android App (Chưa hoàn thành -Tháng 10)**
 - Ứng dụng web phát triển chức năng đặt bàn.
 - Ứng dụng Windows Form phát triển chức năng xuất hóa đớn, thanh toán tại quầy.
 - Ứng dụng Android phát tiển chứ năng gọi nhân viên từ ứng dụng.
+
 **Giai đoạn 4: Tích hợp các hệ thống (tháng 10)**
 - Đồng bộ dữ liệu giữa web, Android app và Windows Forms.
+
 **Giai đoạn 5: Kiểm thử và triển khai (tháng 11)**
 
 **5. Phụ lục**
