@@ -7,11 +7,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://resmant1111-001-site1.jtempurl.com/";
+    private static final String BASE_URL = "";
     private static Retrofit retrofit = null;
 
-    private static final String USERNAME = "11197666";
-    private static final String PASSWORD = "60-dayfreetrial";
+    private static final String USERNAME = "";
+    private static final String PASSWORD = "";
     public static Retrofit getClient() {
         if (retrofit == null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()

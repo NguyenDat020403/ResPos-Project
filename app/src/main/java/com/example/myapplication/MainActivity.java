@@ -282,7 +282,6 @@ public class MainActivity extends AppCompatActivity {
             fetchMenu();
         }, String.class);
 
-// Bắt đầu kết nối
         new Thread(() -> {
             try {
                 hubConnection.start();

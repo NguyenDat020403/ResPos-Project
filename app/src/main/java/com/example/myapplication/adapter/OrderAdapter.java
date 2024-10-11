@@ -4,6 +4,10 @@ import static com.example.myapplication.MainActivity.binding;
 import static com.example.myapplication.MainActivity.listOrder;
 import static com.example.myapplication.R.drawable.image5;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,7 +35,6 @@ import java.util.List;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>{
 
     private List<OrderItem> orderItemList;
-
     public OrderAdapter(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
     }
@@ -133,8 +136,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
         }
 
+        if (position == orderItemList.size() - 1 ) {
+            blinkAnimation(holder.itemView);
+        }
 
     }
+
+
 
     @SuppressLint("NotifyDataSetChanged")
     private void removeItemOderList(OrderItem order) {
@@ -153,6 +161,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         }
         return 0;
     }
+    private void blinkAnimation(View view) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+        animator.setDuration(300);  // Thời gian nhấp nháy
+        animator.setRepeatCount(1); // Số lần lặp lại
+        animator.setRepeatMode(ValueAnimator.REVERSE); // Đảo chiều
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setAlpha(1f); // Giữ item ở trạng thái hiển thị (alpha = 1)
+            }
+        });
+        animator.start();
+    }
+
 
     static class OrderHolder extends RecyclerView.ViewHolder{
 
