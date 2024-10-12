@@ -72,3 +72,5 @@ Mã nguồn:
 - Windows Form: C# (_https://github.com/VanSon223/ResMant_)
 - Android App: Phát triển bằng Java trên các thiết bị tablet (_https://github.com/NguyenDat020403/ResPos-Project_)
 
+Link Web API: _http://resmant1111-001-site1.jtempurl.com/swagger/index.html_
+
