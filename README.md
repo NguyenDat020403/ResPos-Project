@@ -66,7 +66,8 @@ Các thành phần hệ thống:
 |  3  | Nguyễn Văn Sơn         | 6251071082  | Windows Form          |
 
 Mã nguồn:
-- Website: JavaScript ()
-- Windows Form: C# ()
+- Web API: (_https://github.com/TLinhzenis/Restauran_API_)
+- Website: JavaScript (_https://github.com/TLinhzenis/Website-restaurant_)
+- Windows Form: C# (_https://github.com/VanSon223/ResMant_)
 - Android App: Phát triển bằng Java trên các thiết bị tablet (_https://github.com/NguyenDat020403/ResPos-Project_)
 
