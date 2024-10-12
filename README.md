@@ -1,6 +1,7 @@
 					PHẦN MỀM QUẢN LÝ NHÀ HÀNG - ResM
 
 **1. Tổng quan**
+
 Dự án  là một Hệ Thống Quản Lý Nhà Hàng hoạt động trên ba nền tảng: Web, Windows Form, và ứng dụng Android.
 Mục tiêu của hệ thống là tự động hóa và tối ưu hóa các quy trình quản lý nhà hàng như đặt bàn, quản lý thực đơn,
  xử lý đơn hàng, kiểm soát kho, và tương tác thời gian thực với khách hàng tại bàn.
