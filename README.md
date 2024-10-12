@@ -56,6 +56,15 @@ Các thành phần hệ thống:
 **Giai đoạn 5: Kiểm thử và triển khai (tháng 11)**
 
 **5. Phụ lục**
+
+**Bảng phân công công việc**
+
+| STT |       Họ và tên        |     MSSV    |       Công việc       | 
+| --- |:----------------------:|:-----------:| ---------------------:|
+|  1  | Nguyễn Đình Trinh Đạt  | 6251071022  | Android App/ Web APIP |
+|  2  | Bùi Tuấn Linh          | 6251071053  | Website/ Web API      |
+|  3  | Nguyễn Văn Sơn         | 6251071082  | Windows Form          |
+
 Mã nguồn:
 - Website: JavaScript ()
 - Windows Form: C# ()
