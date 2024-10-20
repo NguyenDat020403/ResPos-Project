@@ -61,8 +61,8 @@ Các thành phần hệ thống:
 **Bảng phân công công việc**
 
 | STT |       Họ và tên        |     MSSV    |       Công việc       | 
-| --- |:----------------------|:-----------:| :---------------------|
-|  1  | Nguyễn Đình Trinh Đạt  | 6251071022  | Android App/ Web APIP |
+| --- |:-----------------------|:-----------:| :---------------------|
+|  1  | Nguyễn Đình Trinh Đạt  | 6251071022  | Android App/ Web API  |
 |  2  | Bùi Tuấn Linh          | 6251071053  | Website/ Web API      |
 |  3  | Nguyễn Văn Sơn         | 6251071082  | Windows Form          |
 
