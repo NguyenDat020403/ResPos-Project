@@ -8,7 +8,7 @@ public class Table implements Serializable {
     private int capacity;
     private String username;
     private String password;
-
+    private String Status;
     public Table() {
     }
 
@@ -19,12 +19,13 @@ public class Table implements Serializable {
         this.password = password;
     }
 
-    public Table(int tableId, String tableNumber, int capacity, String username, String password) {
+    public Table(int tableId, String tableNumber, int capacity, String username, String password, String status) {
         this.tableId = tableId;
         this.tableNumber = tableNumber;
         this.capacity = capacity;
         this.username = username;
         this.password = password;
+        this.Status = status;
     }
 
     public int getTableId() {
@@ -65,5 +66,13 @@ public class Table implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }

@@ -54,17 +54,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         if(order == null){
             return;
         }
-        holder.edtnoteItemOrder.setText("");
-        holder.edtnoteItemOrder.setHint("Order Now...");
+//        holder.edtnoteItemOrder.setText("");
+//
+//        holder.edtnoteItemOrder.setHint("Order Now...");
         for (Food f : MainActivity.listFood) {
             if(f.getFoodID() == order.getMenuItemId()){
                 holder.txtProductName.setText(f.getFoodName());
                 holder.txtProductPrice.setText(String.valueOf(order.getPrice()));
-                if(f.getFoodImageBytes() != null){
-                    byte[] imageBytes = f.getFoodImageBytes();
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-                    holder.imgProductPhoto.setImageBitmap(bitmap);
+                if(f.getFoodImage() != null){
+                    Picasso.get()
+                            .load("https://resmant1111-001-site1.jtempurl.com/uploads/" + f.getFoodImage())
+                            .into(holder.imgProductPhoto);
                 }else {
                     Picasso.get()
                             .load(image5)
@@ -135,10 +135,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             }
 
         }
-
-        if (position == orderItemList.size() - 1 ) {
-            blinkAnimation(holder.itemView);
-        }
+//
+//        if (position == orderItemList.size() - 1 ) {
+//            blinkAnimation(holder.itemView);
+//        }
 
     }
 
@@ -161,19 +161,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         }
         return 0;
     }
-    private void blinkAnimation(View view) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
-        animator.setDuration(300);  // Thời gian nhấp nháy
-        animator.setRepeatCount(1); // Số lần lặp lại
-        animator.setRepeatMode(ValueAnimator.REVERSE); // Đảo chiều
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                view.setAlpha(1f); // Giữ item ở trạng thái hiển thị (alpha = 1)
-            }
-        });
-        animator.start();
-    }
+//    private void blinkAnimation(View view) {
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+//        animator.setDuration(300);  // Thời gian nhấp nháy
+//        animator.setRepeatCount(1); // Số lần lặp lại
+//        animator.setRepeatMode(ValueAnimator.REVERSE); // Đảo chiều
+//        animator.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                view.setAlpha(1f); // Giữ item ở trạng thái hiển thị (alpha = 1)
+//            }
+//        });
+//        animator.start();
+//    }
 
 
     static class OrderHolder extends RecyclerView.ViewHolder{

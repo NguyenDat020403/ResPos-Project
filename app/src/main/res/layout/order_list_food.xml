@@ -87,6 +87,7 @@
     </LinearLayout>
     <LinearLayout
         android:weightSum="11"
+        android:padding="10dp"
         android:id="@+id/noteItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,17 +106,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/border_note_order"/>
-        <ImageView
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/imvRemoveItemOrder"
-            android:background="@drawable/border_trash"
-            android:padding="10dp"
+        <LinearLayout
             android:layout_weight="2"
-            android:src="@drawable/trash"
             android:layout_width="0dp"
-            android:layout_height="match_parent"/>
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="50dp">
+            <ImageView
+                android:id="@+id/imvRemoveItemOrder"
+                android:background="@drawable/border_trash"
+                android:padding="5dp"
+                android:src="@drawable/trash"
+                android:layout_width="50dp"
+                android:layout_height="40dp"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

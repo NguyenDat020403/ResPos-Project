@@ -3,13 +3,14 @@
     android:layout_width="400dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/dialog_background"
+    android:background="@drawable/border_menu_left"
     android:layout_gravity="center"
     android:layout_margin="20dp"
     android:padding="16dp">
 
     <ImageView
         android:id="@+id/imgFood"
+        android:src="@drawable/image5"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop" />
@@ -18,6 +19,8 @@
         android:id="@+id/txtFoodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nunitobold"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
@@ -26,19 +29,24 @@
         android:id="@+id/txtFoodPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitolight"
         android:textSize="16sp"
+        android:textColor="@color/white"
         android:layout_marginTop="8dp"/>
     <TextView
         android:id="@+id/txtFoodDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:fontFamily="@font/nunitolight"
+        android:textColor="@color/white"
         android:layout_marginTop="8dp"/>
     <Button
         android:id="@+id/btnAddToOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add to Order"
+        android:backgroundTint="#FEA116"
         android:layout_marginTop="16dp"/>
 
 </LinearLayout>

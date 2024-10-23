@@ -78,13 +78,13 @@ public  class Food{
     public String getFoodImage() {
         return foodImage;
     }
-    public byte[] getFoodImageBytes() {
-        if (foodImage != null) {
-            return Base64.decode(foodImage, Base64.DEFAULT);
-        } else {
-            return null; // Hoặc trả về một byte array mặc định (ví dụ: new byte[0])
-        }
-    }
+//    public byte[] getFoodImageBytes() {
+//        if (foodImage != null) {
+//            return Base64.decode(foodImage, Base64.DEFAULT);
+//        } else {
+//            return null; // Hoặc trả về một byte array mặc định (ví dụ: new byte[0])
+//        }
+//    }
 
 
     public void setFoodImage(String foodImage) {

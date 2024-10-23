@@ -11,17 +11,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.example.myapplication.databinding.ActivityHomeBinding;
 import com.example.myapplication.model.Table;
 import com.google.gson.Gson;
-import com.microsoft.signalr.HubConnection;
-import com.microsoft.signalr.HubConnectionBuilder;
 
 public class HomeActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")

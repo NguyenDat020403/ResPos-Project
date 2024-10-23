@@ -46,6 +46,26 @@ dependencies {
 
     implementation ("com.squareup.picasso:picasso:2.8")
 
+    testImplementation ("junit:junit:4.12")
+
+    // required-for-robolectric (1)
+    testImplementation ("org.robolectric:robolectric:4.2")
+
+    // mockito for unit tests
+    testImplementation ("org.mockito:mockito-core:2.23.4")
+    // mockito for android tests
+    androidTestImplementation ("org.mockito:mockito-android:2.23.4")
+
+    // for instrument / integration test
+    testImplementation ("androidx.test:core:1.1.0")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.0")
+    androidTestImplementation ("androidx.test:runner:1.2.0-beta01")
+    androidTestImplementation ("androidx.test:rules:1.1.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.2.0-beta01")
+    androidTestImplementation ("androidx.annotation:annotation:1.0.2")
+
+    // for UI test
+    androidTestImplementation ("androidx.test.espresso:espresso-intents:3.1.1")
 
 
     implementation ("com.google.firebase:firebase-firestore:24.4.0")
@@ -59,4 +79,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.junit.junit)
 }

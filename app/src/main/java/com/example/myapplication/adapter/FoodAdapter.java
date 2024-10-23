@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,35 +62,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         }
         holder.txtProductName.setText(food.getFoodName());
         holder.txtProductPrice.setText(String.valueOf(food.getFoodPrice()));
-        if(food.getFoodImageBytes() != null){
-            byte[] imageBytes = food.getFoodImageBytes();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-            holder.imgProductPhoto.setImageBitmap(bitmap);
+        if(food.getFoodImage() != null){
+            Log.d("image", food.getFoodImage());
+            Picasso.get()
+                    .load("https://resmant1111-001-site1.jtempurl.com/uploads/" + food.getFoodImage())
+                    .into(holder.imgProductPhoto);
         }else {
             Picasso.get()
                     .load(image5)
                     .into(holder.imgProductPhoto);
         }
-//        if(food.getFoodImage().equals("1") ){
-//            Picasso.get()
-//                    .load(image1)
-//                    .into(holder.imgProductPhoto);
-//        }else
-//            Picasso.get()
-//                    .load(image5)
-//                    .into(holder.imgProductPhoto);
-//
-
-//        holder.setItemClickListener(new ItemClickListener() {
-//            @Override
-//            public void onClick(View view, int position, boolean isLongClick) {
-//                if(isLongClick)
-//                    Toast.makeText(context, "Long Click: "+listFoods.get(position), Toast.LENGTH_SHORT).show();
-//                else
-//                    onItemClickListener.onItemClick(food);
-//            }
-//        });
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
@@ -111,16 +93,18 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         TextView txtFoodDesc = dialog.findViewById(R.id.txtFoodDesc);
         Button btnAddToOrder = dialog.findViewById(R.id.btnAddToOrder);
 
-        if(food.getFoodImageBytes() != null){
-            byte[] imageBytes = food.getFoodImageBytes();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-            imgFood.setImageBitmap(bitmap);
+        if(food.getFoodImage() != null){
+            Log.d("image", food.getFoodImage());
+            Picasso.get()
+                    .load("https://resmant1111-001-site1.jtempurl.com/uploads/" +food.getFoodImage())
+                    .error(image5)
+                    .into(imgFood);
         }else {
             Picasso.get()
                     .load(image5)
                     .into(imgFood);
         }
+
         txtFoodName.setText(food.getFoodName());
         txtFoodPrice.setText(String.valueOf(food.getFoodPrice()) + " VNĐ");
         txtFoodDesc.setText(food.getFoodDescription());
@@ -131,12 +115,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         params.copyFrom(dialog.getWindow().getAttributes());
-
         params.width =  WindowManager.LayoutParams.WRAP_CONTENT;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
         dialog.getWindow().setAttributes(params);
-
         dialog.show();
     }
 
@@ -161,9 +142,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         private TextView txtProductName, txtProductPrice;
         private ImageView imgProductPhoto;
         private ItemClickListener itemClickListener;
-
-
-
         public FoodHolder(@NonNull View itemView) {
             super(itemView);
             txtProductName = itemView.findViewById(R.id.product_name);
@@ -176,12 +154,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         {
             this.itemClickListener = itemClickListener;
         }
-
         @Override
         public void onClick(View view) {
             itemClickListener.onClick(view,getAdapterPosition(),false);
         }
-
         @Override
         public boolean onLongClick(View view) {
             itemClickListener.onClick(view,getAdapterPosition(),true);

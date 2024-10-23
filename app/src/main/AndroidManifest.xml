@@ -10,7 +10,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/logo_n2"
         android:label="ResMan"
-
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/logo_n2"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"

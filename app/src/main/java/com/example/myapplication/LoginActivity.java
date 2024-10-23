@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -73,29 +75,70 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("API_RESPONSE", "Failure: " + t.getMessage());
             }
         });
-        binding.btnLogin.setOnClickListener(v ->{
-            if(!tableList.isEmpty()){
-                for (Table t : tableList){
-                    if(Objects.equals(t.getUsername(), binding.edtUsername.getText().toString()) && Objects.equals(t.getPassword(), binding.edtPassword.getText().toString())){
-                        SharedPreferences sharedPref = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        Gson gson = new Gson();
-                        String tableJson = gson.toJson(t);
-                        editor.putString("tableInfo", tableJson);
-                        editor.putBoolean("isLoggedIn", true);
-                        editor.apply();
-                        editor.apply();
+        binding.edtUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                        Intent i = new Intent(this, HomeActivity.class);
-                        Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-
-                        startActivity(i);
-                        finish();
-                        return;
-                    }
-                }
-                Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
             }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                binding.txtErrorText.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        binding.edtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                binding.txtErrorText.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        binding.btnLogin.setOnClickListener(v ->{
+            if(binding.edtUsername.getText().toString().isEmpty() || binding.edtPassword.getText().toString().isEmpty()){
+                binding.txtErrorText.setVisibility(View.VISIBLE);
+                binding.txtErrorText.setText("Vui lòng nhập đầy đủ thông tin!");
+            }else{
+                if(!tableList.isEmpty()){
+                    for (Table t : tableList){
+                        if(Objects.equals(t.getUsername(), binding.edtUsername.getText().toString()) && Objects.equals(t.getPassword(), binding.edtPassword.getText().toString())){
+                            SharedPreferences sharedPref = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            Gson gson = new Gson();
+                            String tableJson = gson.toJson(t);
+                            editor.putString("tableInfo", tableJson);
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.apply();
+
+                            binding.txtErrorText.setVisibility(View.VISIBLE);
+                            binding.txtErrorText.setText("Đăng nhập thành công!");
+
+                            new Handler().postDelayed(() -> {
+                                Intent i = new Intent(this, HomeActivity.class);
+                                startActivity(i);
+                                finish();
+                            }, 1000);
+                            return;
+                        }
+                    }
+                    binding.txtErrorText.setVisibility(View.VISIBLE);
+                    binding.txtErrorText.setText("Sai tên đăng nhập hoặc mật khẩu!");
+                }
+            }
+
         });
 
     }

@@ -55,6 +55,7 @@
                 android:textColor="@color/white"
                 android:textColorHint="#AFA5A5"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +81,14 @@
                 android:textColorHint="#AFA5A5"
                 android:textSize="16sp" />
         </LinearLayout>
-
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txtErrorText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login Success!"
+            android:textColor="#FEA116"
+            android:textSize="18sp" />
         <Button
             android:id="@+id/btnLogin"
             android:backgroundTint="#FEA116"
