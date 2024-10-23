@@ -1,6 +1,7 @@
 					PHẦN MỀM QUẢN LÝ NHÀ HÀNG - ResM
 
 **1. Tổng quan**
+
 Dự án  là một Hệ Thống Quản Lý Nhà Hàng hoạt động trên ba nền tảng: Web, Windows Form, và ứng dụng Android.
 Mục tiêu của hệ thống là tự động hóa và tối ưu hóa các quy trình quản lý nhà hàng như đặt bàn, quản lý thực đơn,
  xử lý đơn hàng, kiểm soát kho, và tương tác thời gian thực với khách hàng tại bàn.
@@ -56,8 +57,20 @@ Các thành phần hệ thống:
 **Giai đoạn 5: Kiểm thử và triển khai (tháng 11)**
 
 **5. Phụ lục**
+
+**Bảng phân công công việc**
+
+| STT |       Họ và tên        |     MSSV    |       Công việc       | 
+| --- |:-----------------------|:-----------:| :---------------------|
+|  1  | Nguyễn Đình Trinh Đạt  | 6251071022  | Android App/ Web API  |
+|  2  | Bùi Tuấn Linh          | 6251071053  | Website/ Web API      |
+|  3  | Nguyễn Văn Sơn         | 6251071082  | Windows Form          |
+
 Mã nguồn:
-- Website: JavaScript ()
-- Windows Form: C# ()
+- Web API: (_https://github.com/TLinhzenis/Restauran_API_)
+- Website: JavaScript (_https://github.com/TLinhzenis/Website-restaurant_)
+- Windows Form: C# (_https://github.com/VanSon223/ResMant_)
 - Android App: Phát triển bằng Java trên các thiết bị tablet (_https://github.com/NguyenDat020403/ResPos-Project_)
+
+Link Web API: _http://resmant1111-001-site1.jtempurl.com/swagger/index.html_
 
