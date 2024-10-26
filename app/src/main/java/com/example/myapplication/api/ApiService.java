@@ -1,6 +1,7 @@
 package com.example.myapplication.api;
 
 import com.example.myapplication.model.Food;
+import com.example.myapplication.model.MenuItemDTO;
 import com.example.myapplication.model.Order;
 import com.example.myapplication.model.OrderItem;
 import com.example.myapplication.model.Table;
@@ -31,4 +32,7 @@ public interface ApiService {
 
     @PUT("Table/UpdateStatus")
     Call<Table> updateTableStatus(@Query("tableID") int tableID, @Query("status") String status);
+
+    @GET("Menu/GetTop5OrderByQuantity")
+    Call<List<MenuItemDTO>> getTop5OrderByQuantity();
 }

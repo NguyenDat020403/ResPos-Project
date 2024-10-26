@@ -267,8 +267,9 @@
                 android:padding="10dp"
                 android:id="@+id/lnTopOrder"
                 android:layout_width="match_parent"
-                android:layout_weight="2"
-                android:layout_height="0dp">
+                android:layout_weight="4"
+                android:layout_height="0dp"
+                tools:ignore="NestedWeights">
                 <TextView
                     android:text="Top Order"
                     android:textColor="@color/white"
@@ -278,12 +279,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcyTopOrder"
+                    android:id="@+id/rcyTop5Order"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
             <LinearLayout
@@ -335,7 +336,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcyOrderPending"
+                    android:id="@+id/rcyTrder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>

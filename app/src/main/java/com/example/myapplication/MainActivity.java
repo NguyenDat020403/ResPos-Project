@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,12 +34,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.myapplication.adapter.FoodAdapter;
+import com.example.myapplication.adapter.ItemTopAdapter;
 import com.example.myapplication.adapter.OrderAdapter;
 import com.example.myapplication.adapter.ViewPagerAdapter;
 import com.example.myapplication.api.ApiClient;
 import com.example.myapplication.api.ApiService;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.model.Food;
+import com.example.myapplication.model.MenuItemDTO;
 import com.example.myapplication.model.Order;
 import com.example.myapplication.model.OrderItem;
 
@@ -65,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
     public static ActivityMainBinding binding;
     public static List<Food> listFood;
     public static List<OrderItem> listOrder;
+    public static List<MenuItemDTO> listTopOrder;
     private Table table;
     public static OrderAdapter orderAdapter;
+    public static ItemTopAdapter itemTopAdapter;
     public static ApiService apiService;
     public static boolean checkOrder = false;
     public Order newOrder;
@@ -136,15 +141,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void insertOrderList() {
-        FoodAdapter foodAdapter = new FoodAdapter(listFood, this, food -> {
-            addToOrder(food);
-        });
+        FoodAdapter foodAdapter = new FoodAdapter(listFood, this, MainActivity::addToOrder);
     }
 
     private void initM() {
         Intent intent = getIntent();
         table = (Table) intent.getSerializableExtra("tableData");
         binding.txtTableNumber.setText(table.getTableNumber());
+
+        listTopOrder = new ArrayList<>();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binding.rcyTop5Order.setLayoutManager(linearLayoutManager);
+        itemTopAdapter = new ItemTopAdapter(listTopOrder);
+        binding.rcyTop5Order.setAdapter(itemTopAdapter);
+
         listFood = new ArrayList<>();
         initOrderList();
         apiService = ApiClient.getClient().create(ApiService.class);
@@ -177,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     binding.rightContainer.setVisibility(View.VISIBLE);
+                    getTop5Order();
                 }
 
                 @Override
@@ -207,6 +218,30 @@ public class MainActivity extends AppCompatActivity {
             binding.orderContain.startAnimation(slideIn);
 
 
+        });
+    }
+
+    private void getTop5Order() {
+        Call<List<MenuItemDTO>> call = MainActivity.apiService.getTop5OrderByQuantity();
+        call.enqueue(new Callback<List<MenuItemDTO>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<List<MenuItemDTO>> call, Response<List<MenuItemDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Clear the existing list and add the new data
+                    listTopOrder.clear();
+                    listTopOrder.addAll(response.body());
+                    itemTopAdapter.notifyDataSetChanged();
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MenuItemDTO>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
