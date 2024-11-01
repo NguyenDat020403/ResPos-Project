@@ -46,13 +46,13 @@ Các thành phần hệ thống:
 - Ứng dụng Windows Form: Dành cho nhân viên nhà hàng quản lý đơn hàng và bàn.
 - Ứng dụng Android: Đã hoàn thành chức năng gọi món tại bàn và gửi đơn hàng tới hệ thống.
 
-**Giai đoạn 3: Phát Triển Ứng Dụng Web và Windows Form và Android App (Chưa hoàn thành -Tháng 10)**
+**Giai đoạn 3: Phát Triển Ứng Dụng Web và Windows Form và Android App (CTháng 10)**
 - Ứng dụng web phát triển chức năng đặt bàn.
 - Ứng dụng Windows Form phát triển chức năng xuất hóa đớn, thanh toán tại quầy.
 - Ứng dụng Android phát tiển chứ năng gọi nhân viên từ ứng dụng.
 
-**Giai đoạn 4: Tích hợp các hệ thống (tháng 10)**
-- Đồng bộ dữ liệu giữa web, Android app và Windows Forms.
+**Giai đoạn 4: Tích hợp các hệ thống (tháng 10 - NOW)**
+- Phát triển thêm các chức năng cần thiết cho hệ thống
 
 **Giai đoạn 5: Kiểm thử và triển khai (tháng 11)**
 
