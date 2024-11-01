@@ -51,11 +51,11 @@ Các thành phần hệ thống:
 - Ứng dụng Windows Form phát triển chức năng xuất hóa đớn, thanh toán tại quầy.
 - Ứng dụng Android phát tiển chứ năng gọi nhân viên từ ứng dụng.
 
-**Giai đoạn 4: Tích hợp các hệ thống (tháng 10 - NOW)**
-- Phát triển thêm các chức năng cần thiết cho hệ thống
+**Giai đoạn 4: Tích hợp các hệ thống (tháng 10)**
+- Đồng bộ dữ liệu giữa web, Android app và Windows Forms.
 
 **Giai đoạn 5: Kiểm thử và triển khai (tháng 11)**
-
+- Tiến hành kiểm thử tự động và thủ công cho các ứng dụng.
 **5. Phụ lục**
 
 **Bảng phân công công việc**
