@@ -23,7 +23,7 @@ Các thành phần hệ thống:
 - Thông Báo: Thông báo tức thì cho nhân viên khi khách hàng gọi món hoặc yêu cầu trợ giúp.
   
 **3. Cấu trúc dự án**
-Ứng Dụng Web
+
 - Khách Hàng: Đăng ký, đăng nhập và đặt bàn trực tuyến.
 - Nhân Viên Nhà Hàng: Quản lý đặt bàn, đơn hàng và thực đơn.
 - Bảng Điều Khiển Quản Lý: Quản lý người dùng, theo dõi doanh thu và giám sát hoạt động nhà hàng.
