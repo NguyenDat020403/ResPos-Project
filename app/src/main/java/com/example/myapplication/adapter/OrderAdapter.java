@@ -54,9 +54,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         if(order == null){
             return;
         }
-//        holder.edtnoteItemOrder.setText("");
-//
-//        holder.edtnoteItemOrder.setHint("Order Now...");
         for (Food f : MainActivity.listFood) {
             if(f.getFoodID() == order.getMenuItemId()){
                 holder.txtProductName.setText(f.getFoodName());

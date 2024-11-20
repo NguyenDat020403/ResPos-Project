@@ -1,41 +1,24 @@
 package com.example.myapplication;
 
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.BLUE;
-import static android.graphics.Color.RED;
 import static android.graphics.Color.WHITE;
-
-import static com.example.myapplication.R.drawable.border_note_order;
-
-import static java.security.AccessController.getContext;
-
 import android.annotation.SuppressLint;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.example.myapplication.adapter.FoodAdapter;
 import com.example.myapplication.adapter.ItemTopAdapter;
 import com.example.myapplication.adapter.OrderAdapter;
+import com.example.myapplication.adapter.OrderSummaryListAdapter;
 import com.example.myapplication.adapter.ViewPagerAdapter;
 import com.example.myapplication.api.ApiClient;
 import com.example.myapplication.api.ApiService;
@@ -44,20 +27,18 @@ import com.example.myapplication.model.Food;
 import com.example.myapplication.model.MenuItemDTO;
 import com.example.myapplication.model.Order;
 import com.example.myapplication.model.OrderItem;
-
 import com.example.myapplication.model.Table;
 import com.example.myapplication.viewModel.FoodViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
-
-
 import java.math.BigDecimal;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private Table table;
     public static OrderAdapter orderAdapter;
     public static ItemTopAdapter itemTopAdapter;
+    public static OrderSummaryListAdapter orderSummaryListAdapter;
     public static ApiService apiService;
     public static boolean checkOrder = false;
     public Order newOrder;
@@ -87,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         checkFoodUpdate();
 
         fetchMenu();
-        insertOrderList();
 
         orderNow();
         addEvents();
@@ -95,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void orderNow() {
-        binding.btnOrderNow.setOnClickListener(v -> {
+        binding.lnOrderNow.setOnClickListener(v -> {
             String totalBill = binding.txtTotalBill.getText().toString();
             if(listOrder.isEmpty()){
                 Toast.makeText(this, "Vui lòng chọn món ăn", Toast.LENGTH_LONG).show();
@@ -120,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         Call<Order> callOrder= apiService.updateOrder(newOrder);
         callOrder.enqueue(new Callback<Order>() {
             @Override
-            public void onResponse(Call<Order> call, Response<Order> response) {
+            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.d("API_RESPONSE 1111111", "Order  inserted successfully: " + response.body().getTotalAmount());
@@ -134,30 +115,34 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Order> call, Throwable t) {
+            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
                 Log.e("API_RESPONSE", "Order  insertion failed: " + t.getMessage());
             }
         });
     }
 
-    private void insertOrderList() {
-        FoodAdapter foodAdapter = new FoodAdapter(listFood, this, MainActivity::addToOrder);
-    }
 
     private void initM() {
         Intent intent = getIntent();
         table = (Table) intent.getSerializableExtra("tableData");
-        binding.txtTableNumber.setText(table.getTableNumber());
+        binding.txtTableNumber.setText(Objects.requireNonNull(table).getTableNumber());
 
         listTopOrder = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.rcyTop5Order.setLayoutManager(linearLayoutManager);
+        //TopItemList
         itemTopAdapter = new ItemTopAdapter(listTopOrder);
         binding.rcyTop5Order.setAdapter(itemTopAdapter);
+        //OrderListSummary
+        LinearLayoutManager orderSummaryLayoutManager = new LinearLayoutManager(this);
+        binding.rcyOrderSummaryList.setLayoutManager(orderSummaryLayoutManager);
 
         listFood = new ArrayList<>();
+
         initOrderList();
+
         apiService = ApiClient.getClient().create(ApiService.class);
+
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -174,14 +159,82 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        binding.btnContinue.setOnClickListener(v-> showOrderSummaryList());
+        binding.hideOrderList.setOnClickListener(v-> showTop5OrderTheMost());
+    }
+    //Show Right
+    private void showOrderListAdding() {
+        Animation slideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+        Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
+            slideOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    binding.rightContainer.setVisibility(View.GONE);
+                    binding.rightContainerOrderDetail.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    binding.orderContain.setVisibility(View.VISIBLE);
+                    getTop5Order();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            binding.orderContain.startAnimation(slideOut);
+            binding.rightContainer.startAnimation(slideIn);
+    }
+
+    private void showOrderSummaryList() {
         Animation slideOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right);
         Animation slideIn = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_in_left);
+            slideOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    binding.rightContainer.setVisibility(View.GONE);
+                    binding.orderContain.setVisibility(View.GONE);
+                }
 
-        binding.hideOrderList.setOnClickListener(v->{
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    binding.rightContainerOrderDetail.setVisibility(View.VISIBLE);
+                    binding.rcyOrderSummaryList.setAdapter(orderSummaryListAdapter);
+                    binding.overlay.setVisibility(View.VISIBLE);
+                    binding.lnEditOrder.setOnClickListener(v-> {
+                        binding.overlay.setVisibility(View.GONE);
+                        showOrderListAdding();
+                    });
+                    binding.imvOrderSummaryBack.setOnClickListener(v->{
+                        binding.overlay.setVisibility(View.GONE);
+                        showOrderListAdding();
+                    });
+                    orderSummaryListAdapter = new OrderSummaryListAdapter(listOrder);
+                    orderSummaryListAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            binding.rightContainer.startAnimation(slideOut);
+            binding.rightContainerOrderDetail.startAnimation(slideIn);
+
+    }
+
+    private void showTop5OrderTheMost() {
+
+        Animation slideOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_out_right);
+        Animation slideIn = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_in_left);
             slideOut.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
                     binding.orderContain.setVisibility(View.GONE);
+                    binding.rightContainerOrderDetail.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -196,29 +249,6 @@ public class MainActivity extends AppCompatActivity {
             });
             binding.orderContain.startAnimation(slideOut);
             binding.rightContainer.startAnimation(slideIn);
-        });
-        binding.showOrderList.setOnClickListener(v->{
-            slideIn.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    binding.rightContainer.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    binding.rightContainerOrderDetail.setVisibility(View.VISIBLE);
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-            binding.rightContainer.startAnimation(slideOut);
-            binding.orderContain.startAnimation(slideIn);
-
-
-        });
     }
 
     private void getTop5Order() {
@@ -226,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<MenuItemDTO>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(Call<List<MenuItemDTO>> call, Response<List<MenuItemDTO>> response) {
+            public void onResponse(@NonNull Call<List<MenuItemDTO>> call, @NonNull Response<List<MenuItemDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Clear the existing list and add the new data
                     listTopOrder.clear();
@@ -239,29 +269,34 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<MenuItemDTO>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<MenuItemDTO>> call, @NonNull Throwable t) {
                 Toast.makeText(MainActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initOrderList() {
         listOrder = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.rcyOrderList.setLayoutManager(linearLayoutManager);
         orderAdapter = new OrderAdapter(listOrder);
         binding.rcyOrderList.setAdapter(orderAdapter);
+        LinearLayoutManager orderSummaryLayoutManager = new LinearLayoutManager(this);
+        binding.rcyOrderSummaryList.setLayoutManager(orderSummaryLayoutManager);
+        orderSummaryListAdapter = new OrderSummaryListAdapter(listOrder);
+        orderSummaryListAdapter.notifyDataSetChanged();
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     private void insertOrderItem() {
         for(OrderItem o: MainActivity.listOrder){
 
             Call<OrderItem> callOrderItem = apiService.insertOrderItem(o);
             callOrderItem.enqueue(new Callback<OrderItem>() {
                 @Override
-                public void onResponse(Call<OrderItem> call, Response<OrderItem> response) {
+                public void onResponse(@NonNull Call<OrderItem> call, @NonNull Response<OrderItem> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Order Success!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -270,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<OrderItem> call, Throwable t) {
+                public void onFailure(@NonNull Call<OrderItem> call, @NonNull Throwable t) {
                     Toast.makeText(MainActivity.this, "Something wrong!", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -285,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
         Call<List<Food>> call = MainActivity.apiService.getListFood();
         call.enqueue(new Callback<List<Food>>() {
             @Override
-            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+            public void onResponse(@NonNull Call<List<Food>> call, @NonNull Response<List<Food>> response) {
                 if (response.isSuccessful()) {
                     List<Food> foodList = response.body();
                     MainActivity.listFood.addAll(foodList);
@@ -313,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Food>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Food>> call, @NonNull Throwable t) {
                 Log.e("API_RESPONSE", "Failure: " + t.getMessage());
             }
         });
@@ -321,12 +356,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNewOrder(ApiService apiService, Table table) {
         newOrder = new Order(table.getTableId() , "Pending");
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("E, MMM d, yyyy").format(Calendar.getInstance().getTime());
+        binding.txtDateNow.setText(timeStamp);
         Call<Order> callOrder = apiService.insertNewOrder(newOrder);
         callOrder.enqueue(new Callback<Order>() {
             @Override
-            public void onResponse(Call<Order> call, Response<Order> response) {
+            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
                 if (response.isSuccessful()) {
                     newOrder = response.body();
+                    assert response.body() != null;
                     binding.txtOrderID.setText(String.valueOf(response.body().getOrderId()));
                     updateTableToUnavailable(table.getTableId());
                     Log.d("API_RESPONSE", "Order inserted successfully: " + response.body().getStatus());
@@ -337,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Order> call, Throwable t) {
+            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
                 Log.e("API_RESPONSE", "Order insertion failed: " + t.getMessage());
             }
         });
@@ -348,9 +386,8 @@ public class MainActivity extends AppCompatActivity {
         Call<Table> updateTableStatus = apiService.updateTableStatus(tableId,"Unavailable");
         updateTableStatus.enqueue(new Callback<Table>() {
             @Override
-            public void onResponse(Call<Table> call, Response<Table> response) {
+            public void onResponse(@NonNull Call<Table> call, @NonNull Response<Table> response) {
                 if (response.isSuccessful()) {
-                    Table t = response.body();
                     Log.d("API_RESPONSE", "Table successfully");
                     checkOrder = true;
                 } else {
@@ -359,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Table> call, Throwable t) {
+            public void onFailure(@NonNull Call<Table> call, @NonNull Throwable t) {
                 Log.e("API_RESPONSE", "Table u failed: " + t.getMessage());
             }
         });
@@ -367,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @SuppressLint("NotifyDataSetChanged")
-    public static void addToOrder(Food food) {
+    public static   void addToOrder(Food food) {
         binding.orderContain.setVisibility(View.VISIBLE);
         binding.rightContainerOrderDetail.setVisibility(View.GONE);
         binding.rightContainer.setVisibility(View.GONE);
@@ -383,7 +420,6 @@ public class MainActivity extends AppCompatActivity {
                     check = 0;
                     break;
                 }
-                check = 1;
             }
             if(check == 1 ){
                 OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"");
@@ -397,11 +433,11 @@ public class MainActivity extends AppCompatActivity {
         }
         binding.txtTotalBill.setText(String.valueOf(total));
         orderAdapter.notifyDataSetChanged();
-
+        orderSummaryListAdapter.notifyDataSetChanged();
     }
 
     private void checkFoodUpdate() {
-        HubConnection hubConnection = HubConnectionBuilder.create("https://resmant1111-001-site1.jtempurl.com/menuHub") // Sử dụng IP của máy chủ hoặc localhost
+        HubConnection hubConnection = HubConnectionBuilder.create("https://resmant1111-001-site1.jtempurl.com/menuHub")
                 .build();
 
         hubConnection.on("ReceiveMenuUpdate", (data) -> {
@@ -433,7 +469,11 @@ public class MainActivity extends AppCompatActivity {
         binding.navItemCallStaff.setOnClickListener(view -> {
             selectItem(binding.navItemCallStaff);
             binding.callStaff.setColorFilter(WHITE);
-            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        });
+        binding.navItemNewOrder.setOnClickListener(view ->{
+            selectItem(binding.navItemNewOrder);
+            binding.newOrder.setColorFilter(WHITE);
+            startActivity(new Intent(MainActivity.this, MainActivity.class));
             finish();
         });
     }

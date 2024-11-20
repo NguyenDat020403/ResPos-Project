@@ -1,7 +1,6 @@
 package com.example.myapplication.fragment;
 
 
-import static com.example.myapplication.MainActivity.addToOrder;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +11,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.FoodAdapter;
 import com.example.myapplication.model.Food;
@@ -39,9 +38,7 @@ public class KhaiViFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_khaivi, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.rcyListFood);
-        FoodAdapter foodAdapter = new FoodAdapter(new ArrayList<>(), getContext(), food -> {
-            addToOrder(food);
-        });
+        FoodAdapter foodAdapter = new FoodAdapter(new ArrayList<>(), getContext(), MainActivity::addToOrder);
         recyclerView.setAdapter(foodAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 3);

@@ -23,10 +23,9 @@ public class ApiClient {
                     })
                     .build();
 
-            // Xây dựng Retrofit instance
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(okHttpClient)  // Thêm OkHttpClient vào Retrofit
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
