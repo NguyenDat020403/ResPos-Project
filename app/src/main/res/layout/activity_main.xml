@@ -156,7 +156,7 @@
 
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:background="@drawable/rounded_background_left"
                 android:id="@+id/orderContain"
                 android:layout_weight="1"
@@ -243,7 +243,7 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:padding="10dp"
                 android:background='@drawable/rounded_background_left'
                 android:id="@+id/rightContainer"
