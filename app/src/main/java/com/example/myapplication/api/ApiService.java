@@ -15,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -35,4 +36,7 @@ public interface ApiService {
 
     @GET("Menu/GetTop5OrderByQuantity")
     Call<List<MenuItemDTO>> getTop5OrderByQuantity();
+
+    @GET("OrderItem/ListByOrderId/{orderId}")
+    Call<List<OrderItem>> getOrderItemByOrderId(@Path("orderId") int orderId);
 }

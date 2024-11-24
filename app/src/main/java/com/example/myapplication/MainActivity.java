@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.myapplication.adapter.ItemTopAdapter;
+import com.example.myapplication.adapter.MyOrderAdapter;
 import com.example.myapplication.adapter.OrderAdapter;
 import com.example.myapplication.adapter.OrderSummaryListAdapter;
 import com.example.myapplication.adapter.ViewPagerAdapter;
@@ -50,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
     public static List<Food> listFood;
     public static List<OrderItem> listOrder;
     public static List<MenuItemDTO> listTopOrder;
+    public static List<OrderItem> myOrderList;
     private Table table;
     public static OrderAdapter orderAdapter;
     public static ItemTopAdapter itemTopAdapter;
     public static OrderSummaryListAdapter orderSummaryListAdapter;
+    public static MyOrderAdapter myOrderAdapter;
     public static ApiService apiService;
     public static boolean checkOrder = false;
     public Order newOrder;
@@ -126,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         table = (Table) intent.getSerializableExtra("tableData");
         binding.txtTableNumber.setText(Objects.requireNonNull(table).getTableNumber());
-
+        myOrderList = new ArrayList<>();
         listTopOrder = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.rcyTop5Order.setLayoutManager(linearLayoutManager);
@@ -136,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
         //OrderListSummary
         LinearLayoutManager orderSummaryLayoutManager = new LinearLayoutManager(this);
         binding.rcyOrderSummaryList.setLayoutManager(orderSummaryLayoutManager);
-
+        //MyOrderList
+        LinearLayoutManager myOrderLayoutManager = new LinearLayoutManager(this);
+        binding.rcyMyOrdersDetail.setLayoutManager(myOrderLayoutManager);
+        myOrderAdapter = new MyOrderAdapter(myOrderList);
+        binding.rcyMyOrdersDetail.setAdapter(myOrderAdapter);
         listFood = new ArrayList<>();
 
         initOrderList();
@@ -160,8 +167,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.btnContinue.setOnClickListener(v-> showOrderSummaryList());
+        binding.btnContinue.setOnClickListener(v-> showOrderSummaryList() );
         binding.hideOrderList.setOnClickListener(v-> showTop5OrderTheMost());
+        binding.myOrder.setOnClickListener(v->{
+            showMyOrders();
+        });
+        binding.lnEditOrder.setOnClickListener(v-> {
+            binding.overlay.setVisibility(View.GONE);
+            showOrderListAdding();
+        });
+        binding.imvOrderSummaryBack.setOnClickListener(v->{
+            binding.overlay.setVisibility(View.GONE);
+            showOrderListAdding();
+        });
+        Animation slideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+        Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
+        binding.imvMyOrderBack.setOnClickListener(v->{
+            binding.myOrderContainer.startAnimation(slideOut);
+            binding.myOrderContainer.setVisibility(View.GONE);
+            getTop5Order();
+            binding.rightContainer.startAnimation(slideIn);
+            binding.rightContainer.setVisibility(View.VISIBLE);
+
+        });
+        binding.lnContinueOrder.setOnClickListener(v->{
+
+            binding.myOrderContainer.startAnimation(slideOut);
+            binding.myOrderContainer.setVisibility(View.GONE);
+
+            binding.orderContain.startAnimation(slideIn);
+            binding.orderContain.setVisibility(View.VISIBLE);
+
+        });
+    }
+    private void showMyOrders(){
+        Animation slideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+        Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
+        slideOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                binding.rightContainer.setVisibility(View.GONE);
+                binding.rightContainerOrderDetail.setVisibility(View.GONE);
+                binding.orderContain.setVisibility(View.GONE);
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                getOrderItemByOrderId();
+                binding.myOrderContainer.setVisibility(View.VISIBLE);
+                binding.txtMyOrderID.setText(binding.txtOrderID.getText());
+                binding.txtMyOrdersTotalBill.setText(binding.txtTotalBill.getText());
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        binding.rightContainer.startAnimation(slideOut);
+        binding.myOrderContainer.startAnimation(slideIn);
     }
     //Show Right
     private void showOrderListAdding() {
@@ -170,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
             slideOut.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    binding.myOrderContainer.setVisibility(View.GONE);
                     binding.rightContainer.setVisibility(View.GONE);
                     binding.rightContainerOrderDetail.setVisibility(View.GONE);
                 }
@@ -177,15 +241,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     binding.orderContain.setVisibility(View.VISIBLE);
-                    getTop5Order();
                 }
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                 }
             });
-            binding.orderContain.startAnimation(slideOut);
-            binding.rightContainer.startAnimation(slideIn);
+        binding.rightContainerOrderDetail.startAnimation(slideOut);
+        binding.orderContain.startAnimation(slideIn);
     }
 
     private void showOrderSummaryList() {
@@ -194,24 +257,18 @@ public class MainActivity extends AppCompatActivity {
             slideOut.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    binding.myOrderContainer.setVisibility(View.GONE);
                     binding.rightContainer.setVisibility(View.GONE);
                     binding.orderContain.setVisibility(View.GONE);
                 }
 
-                @SuppressLint("NotifyDataSetChanged")
+                @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     binding.rightContainerOrderDetail.setVisibility(View.VISIBLE);
+                    binding.txtOrderConfirmationID.setText("Orders: #"+binding.txtOrderID.getText());
                     binding.rcyOrderSummaryList.setAdapter(orderSummaryListAdapter);
                     binding.overlay.setVisibility(View.VISIBLE);
-                    binding.lnEditOrder.setOnClickListener(v-> {
-                        binding.overlay.setVisibility(View.GONE);
-                        showOrderListAdding();
-                    });
-                    binding.imvOrderSummaryBack.setOnClickListener(v->{
-                        binding.overlay.setVisibility(View.GONE);
-                        showOrderListAdding();
-                    });
                     orderSummaryListAdapter = new OrderSummaryListAdapter(listOrder);
                     orderSummaryListAdapter.notifyDataSetChanged();
 
@@ -221,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onAnimationRepeat(Animation animation) {
                 }
             });
-            binding.rightContainer.startAnimation(slideOut);
+            binding.orderContain.startAnimation(slideOut);
             binding.rightContainerOrderDetail.startAnimation(slideIn);
 
     }
@@ -234,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationStart(Animation animation) {
                     binding.orderContain.setVisibility(View.GONE);
+                    binding.myOrderContainer.setVisibility(View.GONE);
                     binding.rightContainerOrderDetail.setVisibility(View.GONE);
                 }
 
@@ -249,6 +307,27 @@ public class MainActivity extends AppCompatActivity {
             });
             binding.orderContain.startAnimation(slideOut);
             binding.rightContainer.startAnimation(slideIn);
+    }
+    private void getOrderItemByOrderId(){
+        Call<List<OrderItem>> call = MainActivity.apiService.getOrderItemByOrderId(Integer.parseInt(binding.txtOrderID.getText().toString()));
+        call.enqueue(new Callback<List<OrderItem>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<List<OrderItem>> call, Response<List<OrderItem>> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    myOrderList.clear();
+                    myOrderList.addAll(response.body());
+                    myOrderAdapter.notifyDataSetChanged();
+                }else {
+                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<OrderItem>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getTop5Order() {
