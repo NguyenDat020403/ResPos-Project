@@ -7,27 +7,20 @@ public class OrderItem {
     private int quantity;
     private Double price;
     private String note;
+    private String Status;
 
 
     public OrderItem() {
     }
 
-    public OrderItem(int orderId, int menuItemId, int quantity, Double price, String note) {
+    public OrderItem(int orderId, int menuItemId, int quantity, Double price, String note, String Status) {
         this.orderId = orderId;
         this.menuItemId = menuItemId;
         this.quantity = quantity;
         this.price = price;
         this.note = note;
+        this.Status = Status;
     }
-
-//    public OrderItem(int orderItemId, int orderId, int menuItemId, int quantity, Double price) {
-//        this.orderItemId = orderItemId;
-//        this.orderId = orderId;
-//        this.menuItemId = menuItemId;
-//        this.quantity = quantity;
-//        this.price = price;
-//    }
-
 
     public int getOrderItemId() {
         return orderItemId;
@@ -75,5 +68,13 @@ public class OrderItem {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }

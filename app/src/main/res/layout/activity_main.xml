@@ -156,7 +156,7 @@
 
             </LinearLayout>
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:background="@drawable/rounded_background_left"
                 android:id="@+id/orderContain"
                 android:layout_weight="1"
@@ -236,10 +236,11 @@
                     <Button
                         android:id="@+id/btnContinue"
                         android:text="Continue"
+                        android:layout_gravity="bottom"
                         android:textSize="20sp"
                         android:backgroundTint="#FEA116"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="60dp"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -298,7 +299,7 @@
                         android:layout_height="match_parent"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:padding="40dp"
+                    android:paddingHorizontal="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
@@ -308,9 +309,10 @@
                         android:id="@+id/myOrder"
                         android:text="My Orders"
                         android:textSize="20sp"
+                        android:layout_gravity="bottom"
                         android:backgroundTint="#FEA116"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="60dp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -323,7 +325,7 @@
         <LinearLayout
             android:id="@+id/rightContainerOrderDetail"
             android:layout_width="800dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_background_left"
             android:layout_gravity="right"

@@ -215,8 +215,6 @@ public class MainActivity extends AppCompatActivity {
                 getOrderItemByOrderId();
                 binding.myOrderContainer.setVisibility(View.VISIBLE);
                 binding.txtMyOrderID.setText(binding.txtOrderID.getText());
-                binding.txtMyOrdersTotalBill.setText(binding.txtTotalBill.getText());
-
             }
 
             @Override
@@ -318,6 +316,11 @@ public class MainActivity extends AppCompatActivity {
                     myOrderList.clear();
                     myOrderList.addAll(response.body());
                     myOrderAdapter.notifyDataSetChanged();
+                    double totalBill = (double) 0;
+                    for(int i = 0; i < response.body().size();i++){
+                        totalBill += response.body().get(i).getQuantity() * response.body().get(i).getPrice();
+                    }
+                    binding.txtMyOrdersTotalBill.setText(String.valueOf(totalBill) );
                 }else {
                     Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -490,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
         int check = 1;
         Double total = (double) 0;
         if(listOrder.isEmpty()){
-            OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"");
+            OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"","Ordered");
             listOrder.add(item);
         }else{
             for(OrderItem o : listOrder){
@@ -501,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if(check == 1 ){
-                OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"");
+                OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"","Ordered");
                 listOrder.add(item);
             }
 
