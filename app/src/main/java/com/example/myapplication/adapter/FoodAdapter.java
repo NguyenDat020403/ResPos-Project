@@ -65,7 +65,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         if(food.getFoodImage() != null){
             Log.d("image", food.getFoodImage());
             Picasso.get()
-                    .load("https://resmant1111-001-site1.jtempurl.com/uploads/" + food.getFoodImage())
+                    .load("https://resmant11111-001-site1.anytempurl.com/uploads/" + food.getFoodImage())
                     .into(holder.imgProductPhoto);
         }else {
             Picasso.get()
@@ -96,7 +96,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodHolder>{
         if(food.getFoodImage() != null){
             Log.d("image", food.getFoodImage());
             Picasso.get()
-                    .load("https://resmant1111-001-site1.jtempurl.com/uploads/" +food.getFoodImage())
+                    .load("https://resmant11111-001-site1.anytempurl.com/uploads/" +food.getFoodImage())
                     .error(image5)
                     .into(imgFood);
         }else {

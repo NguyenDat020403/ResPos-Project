@@ -104,7 +104,7 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical">
 
                             <TextView
@@ -156,7 +156,7 @@
 
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:background="@drawable/rounded_background_left"
                 android:id="@+id/orderContain"
                 android:layout_weight="1"
@@ -221,11 +221,25 @@
                     android:layout_weight="7"
                     android:id="@+id/orderList"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp">
+                    android:layout_height="0dp"
+                    android:orientation="vertical">
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rcyOrderList"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
+                    <TextView
+                        android:layout_marginTop="100dp"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:id="@+id/txtIsEmptyList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/nunitolight"
+                        android:text="Empty list ..."
+                        android:textColor="#A29898"
+                        android:textSize="18sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginLeft="10dp"
@@ -251,7 +265,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:weightSum="5"
+                android:weightSum="10"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -259,7 +273,7 @@
                     android:padding="10dp"
                     android:id="@+id/lnTopOrder"
                     android:layout_width="match_parent"
-                    android:layout_weight="4"
+                    android:layout_weight="9"
                     android:layout_height="0dp"
                     tools:ignore="NestedWeights">
                     <TextView
@@ -325,7 +339,7 @@
         <LinearLayout
             android:id="@+id/rightContainerOrderDetail"
             android:layout_width="800dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_background_left"
             android:layout_gravity="right"
@@ -475,6 +489,7 @@
             android:layout_gravity="right"
             android:paddingEnd="20dp"
             tools:ignore="RtlHardcoded,RtlSymmetry">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:padding="10dp"

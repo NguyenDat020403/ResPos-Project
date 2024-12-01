@@ -51,7 +51,7 @@ public class OrderSummaryListAdapter extends RecyclerView.Adapter<OrderSummaryLi
                 holder.txtProductPrice.setText(String.valueOf(order.getPrice()));
                 if(f.getFoodImage() != null){
                     Picasso.get()
-                            .load("https://resmant1111-001-site1.jtempurl.com/uploads/" + f.getFoodImage())
+                            .load("https://resmant11111-001-site1.anytempurl.com/uploads/" + f.getFoodImage())
                             .into(holder.imgProductPhoto);
                 }else {
                     Picasso.get()

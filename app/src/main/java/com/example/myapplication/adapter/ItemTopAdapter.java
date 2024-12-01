@@ -47,7 +47,7 @@ public class ItemTopAdapter extends RecyclerView.Adapter<ItemTopAdapter.MenuItem
         holder.txtTotalQuantity.setText(String.valueOf(menuItem.getTotalQuantity()));
         if(menuItem.getImage() != null){
             Picasso.get()
-                    .load("https://resmant1111-001-site1.jtempurl.com/uploads/" + menuItem.getImage())
+                    .load("https://resmant11111-001-site1.anytempurl.com/uploads/" + menuItem.getImage())
                     .into(holder.imvItemImage);
         }else {
             Picasso.get()

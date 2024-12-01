@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         binding.imvMyOrderBack.setOnClickListener(v->{
             binding.myOrderContainer.startAnimation(slideOut);
             binding.myOrderContainer.setVisibility(View.GONE);
+            binding.overlay.setVisibility(View.GONE);
             getTop5Order();
             binding.rightContainer.startAnimation(slideIn);
             binding.rightContainer.setVisibility(View.VISIBLE);
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
             binding.myOrderContainer.startAnimation(slideOut);
             binding.myOrderContainer.setVisibility(View.GONE);
-
+            binding.overlay.setVisibility(View.GONE);
             binding.orderContain.startAnimation(slideIn);
             binding.orderContain.setVisibility(View.VISIBLE);
 
@@ -213,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 getOrderItemByOrderId();
+                binding.overlay.setVisibility(View.VISIBLE);
                 binding.myOrderContainer.setVisibility(View.VISIBLE);
                 binding.txtMyOrderID.setText(binding.txtOrderID.getText());
             }
@@ -414,13 +416,13 @@ public class MainActivity extends AppCompatActivity {
                     new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
                         switch (position) {
                             case 0:
-                                tab.setText("Khai vị");
+                                tab.setText("Appetizers");
                                 break;
                             case 1:
-                                tab.setText("Món chính");
+                                tab.setText("Main Courses");
                                 break;
                             case 2:
-                                tab.setText("Tráng miệng");
+                                tab.setText("Desserts");
                                 break;
                         }
                     }).attach();
@@ -493,6 +495,8 @@ public class MainActivity extends AppCompatActivity {
         int check = 1;
         Double total = (double) 0;
         if(listOrder.isEmpty()){
+            binding.txtIsEmptyList.setVisibility(View.GONE);
+            binding.rcyOrderList.setVisibility(View.VISIBLE);
             OrderItem item = new OrderItem(Integer.parseInt(binding.txtOrderID.getText().toString()),food.getFoodID(),1,food.getFoodPrice(),"","Ordered");
             listOrder.add(item);
         }else{
@@ -519,7 +523,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkFoodUpdate() {
-        HubConnection hubConnection = HubConnectionBuilder.create("https://resmant1111-001-site1.jtempurl.com/menuHub")
+        HubConnection hubConnection = HubConnectionBuilder.create("https://resmant11111-001-site1.anytempurl.com/menuHub")
                 .build();
 
         hubConnection.on("ReceiveMenuUpdate", (data) -> {

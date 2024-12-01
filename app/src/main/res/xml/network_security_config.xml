@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">resmant1111-001-site1.jtempurl.com</domain>
+        <domain includeSubdomains="true">resmant11111-001-site1.anytempurl.com</domain>
     </domain-config>
 </network-security-config>
 
