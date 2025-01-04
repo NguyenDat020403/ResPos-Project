@@ -335,7 +335,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#80000000"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true"/>
         <LinearLayout
             android:id="@+id/rightContainerOrderDetail"
             android:layout_width="800dp"
@@ -344,6 +346,8 @@
             android:background="@drawable/rounded_background_left"
             android:layout_gravity="right"
             android:paddingEnd="20dp"
+            android:clickable="true"
+            android:focusable="true"
             tools:ignore="RtlHardcoded,RtlSymmetry">
                 <LinearLayout
                     android:orientation="vertical"
